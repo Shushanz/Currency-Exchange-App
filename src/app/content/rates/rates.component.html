@@ -1,0 +1,70 @@
+<div class="container text-center">
+    <h1 class="p-5">Exchange Board for AMD</h1>
+    <table class="table table-hover w-50 mx-auto">
+        <thead>
+            <tr>
+                <th scope="col">Currency</th>
+                <th scope="col">Rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let singleRate of AMDrates">
+                <td scope="row"> {{singleRate.currencyCode}}</td>
+                <td scope="row">{{singleRate.currencyValue}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <h1 class="p-5">Currency Exchange Rates</h1>
+    <form [formGroup]="ratesForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="form-label" for="from">Select From:</label>
+                    <select class="form-control" id="from" formControlName="from" name="from">
+                        <option class="text-muted" [ngValue]="null">Select the Currency</option>
+                        <option [value]="symbol.currencyCode" *ngFor="let symbol of symbolsArray">
+                            {{ symbol.country }} ({{symbol.currencyCode }})</option>
+                    </select>
+                    <span class="form-text text-danger"
+                        *ngIf="!ratesForm.get('from').valid && ratesForm.get('from').touched">
+                        * Please select "From" field</span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="form-label" for="to">Select To:</label>
+                    <select class="form-control" id="to" formControlName="to" name="to">
+                        <option class="text-muted" [ngValue]="null">Select the Currency</option>
+                        <option [value]="symbol.currencyCode" *ngFor="let symbol of symbolsArray">
+                            {{ symbol.country }} ({{symbol.currencyCode }})</option>
+                    </select>
+                    <span class="form-text text-danger"
+                        *ngIf="!ratesForm.get('to').valid && ratesForm.get('to').touched">
+                        * Please select "To" field</span>
+                </div>
+            </div>
+            <div class="col-sm-6 pt-3">
+                <div class="form-group">
+                    <label class="form-label" for="amount">Input amount:</label>
+                    <input class="form-control" type="number" formControlName="amount" name="amount"
+                        placeholder="Type amount here" />
+                    <span class="form-text text-danger"
+                        *ngIf="!ratesForm.get('amount').valid && ratesForm.get('amount').touched">* Amount is
+                        Required</span>
+                </div>
+            </div>
+            <div class="col-sm-6 p-3">
+                <div class="form-group">
+                    <label class="form-label" for="result">Output amount:</label>
+                    <input class="form-control" type="number" formControlName="result" name="result" [value]="result"
+                        readonly />
+                </div>
+            </div>
+            <div class="col-sm-12 text-center p-3">
+                <button type="submit" class="btn btn-primary" [disabled]="!ratesForm.valid">
+                    Convert
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
